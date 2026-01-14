@@ -56,7 +56,7 @@ function App() {
     };
 
     setTasks([...tasks, newTask]);
-    
+    setFormData({ name: '', description: ''})
     setAddTaskOverlay(false)
   }
 
@@ -146,14 +146,14 @@ function App() {
             value={formData.name}
             onChange={handleInputChange}/>
 
-          <label htmlFor="name">Description</label>
+          <label htmlFor="description">Description</label>
           <input type="text"
-            id="name"
-            name="name"
+            id="description"
+            name="description"
             value={formData.name}
             onChange={handleInputChange}/>
 
-          <button onClick={() => setAddTaskOverlay(false)}>Close</button>
+          <button onClick={() => {setAddTaskOverlay(false); setFormData({ name: '', description: '' });}}>Close</button>
           <button onClick={addTask}>Add</button>
         </div>
       </div>
@@ -174,14 +174,14 @@ function App() {
             value={formData.name}
             onChange={handleInputChange}/>
 
-          <label htmlFor="name">Description</label>
+          <label htmlFor="description">Description</label>
           <input type="text"
-            id="name"
-            name="name"
+            id="description"
+            name="description"
             value={formData.name}
             onChange={handleInputChange}/>
 
-          <button onClick={() => setEditingTaskId(null)}>Close</button>
+          <button onClick={() => { setEditingTaskId(null); setFormData({ name: '', description: '' })}}>Close</button>
           <button onClick={() => deleteTask(taskBeingEdited.id)}>Delete</button>
           <button onClick={saveTasks}>Save</button>
         </div>
@@ -195,7 +195,7 @@ function App() {
           <h2>View Task</h2>
           <p>Viewing: {taskBeingViewed.name}</p>
 
-          <h3>taskBeingViewed.description</h3>
+          <h3>{taskBeingViewed.description}</h3>
 
           <button onClick={() => setViewingTaskId(null)}>Close</button>
         </div>
@@ -225,10 +225,9 @@ function App() {
       <h2>Completed</h2>
 
       {/* Print completed tasks */}
+      {/* Generate task card with name, description, category, and checkbox*/}
       <div className="completedTasks">
         {completedTasks.map(task => (
-          <div key={task.id}>
-            {/* Generate task card with name, description, category, and checkbox*/}
               <div key={task.id} className="taskCard">
                 <h3>{task.name}</h3>
                 <span>{task.category}</span>
@@ -237,7 +236,6 @@ function App() {
                   onChange={() => toggleTask(task.id)}></input>
                   <button className="editButton" onClick={() => editTask(task.id)}>Edit</button>
                   <button className="viewButton" onClick={() => viewTask(task.id)}>View</button>
-                </div>
             </div>
         ))}
         </div>
