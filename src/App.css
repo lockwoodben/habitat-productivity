@@ -1,73 +1,111 @@
+/* ++ THEME VARIABLES ++ */
+
+/* Root Variables for light mode (default) */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #dddddd;
+  --card-bg: #f9f9f9;
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --input-bg: #ffffff;
+  --button-bg: #4CAF50;
+  --button-hover: #45a049;
+  --button-delete: #f44336;
+  --button-delete-hover: #da190b;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+/* Dark mode color overrides */
+.dark-mode {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --border-color: #444444;
+  --card-bg: #2d2d2d;
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --input-bg: #3a3a3a;
+  --button-bg: #4CAF50;
+  --button-hover: #45a049;
+  --button-delete: #f44336;
+  --button-delete-hover: #da190b;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Main app container */
+.App {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding-right: 400px;
+  padding-left: 400px;
+  padding-top: 100px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Typography */
+.App h1, 
+.App h2, 
+.App h3 {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 }
 
-.card {
-  padding: 2em;
+.App p, 
+.App span {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
-}
 
-/* styling for task card*/
+/* ++ TASK CARDS ++ */
+
+/* Individual task card */
 .taskCard {
   position: relative;
-  border: 2px solid #ddd;
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
-  background-color: #f9f9f9;
+  background-color: var(--card-bg);
+  transition: all 0.3s ease;
+}
+
+.taskCard:hover {
+  border-color: var(--button-bg);
 }
 
 .taskCard h3 {
   margin-top: 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
-.taskCard p{
-  color: #666;
+.taskCard p {
+  color: var(--text-secondary);
 }
 
-/* styling for edit button and edit form */
+/* Completed tasks styling */
+.completedTasks .taskCard {
+  opacity: 0.6;
+  background-color: var(--bg-secondary);
+}
+
+/* ++ BUTTONS ++ */
+
+/* Edit button - appears on hover in bottom-left of card */
 .editButton {
   position: absolute;
   bottom: 8px;
   left: 8px;
   opacity: 0;
   transition: opacity 0.2s;
-  background-color: #4CAF50;
+  background-color: var(--button-bg);
   color: white;
   border: none;
   border-radius: 4px;
@@ -80,57 +118,17 @@
 }
 
 .editButton:hover {
-  background-color: #45a049;
+  background-color: var(--button-hover);
 }
 
-.editFormOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.editForm {
-  background-color: white;
-  padding: 24px;
-  border-radius: 8px;
-  min-width: 400px;
-}
-
-.addFormOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.addForm {
-  background-color: white;
-  padding: 24px;
-  border-radius: 8px;
-  min-width: 400px;
-}
-
-
-.deleteButton {
+/* View button */
+.viewButton {
   position: absolute;
   bottom: 8px;
-  left: 8px;
+  left: 60px;
   opacity: 0;
   transition: opacity 0.2s;
-  background-color: #4CAF50;
+  background-color: #2196F3;
   color: white;
   border: none;
   border-radius: 4px;
@@ -138,12 +136,31 @@
   cursor: pointer;
 }
 
-/* styling for completed task card */
-.completedTasks .taskCard {
-  opacity: 0.5;
-  background-color: #e8e8e8;
-  text-decoration: line-through;
+.taskCard:hover .viewButton {
+  opacity: 1;
 }
+
+.viewButton:hover {
+  background-color: #0b7dda;
+}
+
+/* General button styling */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: var(--button-bg);
+  color: white;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+}
+
+/* ++ MODAL / FORM ++ */
 
 /* Modal overlay - darkens and blurs background */
 .formOverlay {
@@ -152,48 +169,56 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent black */
-  backdrop-filter: blur(5px);             /* Blur the background */
-  -webkit-backdrop-filter: blur(5px);     /* Safari support */
+  background-color: var(--overlay-bg);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-/* Modal form container - centered white box */
+/* Modal form container - centered box */
 .taskForm {
-  background-color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   padding: 32px;
   border-radius: 12px;
+  border: 1px solid var(--border-color);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   min-width: 400px;
   max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
+  transition: all 0.3s ease;
 }
 
-/* Form inputs styling */
+/* Form labels */
 .taskForm label {
   display: block;
   margin-top: 16px;
   margin-bottom: 4px;
   font-weight: 500;
+  color: var(--text-primary);
 }
 
+/* Form inputs and selects */
 .taskForm input,
 .taskForm select {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 14px;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
 }
 
 .taskForm input:focus,
 .taskForm select:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--button-bg);
   box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
@@ -214,29 +239,53 @@
   transition: background-color 0.2s;
 }
 
+/* Close button (first button) */
 .formButtons button:first-child {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
 
 .formButtons button:first-child:hover {
-  background-color: #e0e0e0;
+  background-color: var(--border-color);
 }
 
+/* Submit/Save button */
 .formButtons button:not(:first-child) {
-  background-color: #4CAF50;
+  background-color: var(--button-bg);
   color: white;
 }
 
 .formButtons button:not(:first-child):hover {
-  background-color: #45a049;
+  background-color: var(--button-hover);
 }
 
-/* Delete button special styling */
+/* Delete button (when present, it's the second button) */
 .formButtons button:nth-child(2) {
-  background-color: #f44336;
+  background-color: var(--button-delete);
 }
 
 .formButtons button:nth-child(2):hover {
-  background-color: #da190b;
+  background-color: var(--button-delete-hover);
+}
+
+/* ++ TASK LISTS ++ */
+
+.taskList,
+.completedTasks {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+/* ++ RESPONSIVE DESIGN ++ */
+
+@media (max-width: 600px) {
+  .taskForm {
+    min-width: 300px;
+    max-width: 90vw;
+  }
+  
+  .App {
+    padding: 12px;
+  }
 }

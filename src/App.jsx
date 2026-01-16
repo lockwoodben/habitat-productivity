@@ -1,4 +1,5 @@
 import './App.css'
+import {useEffect, useState} from 'react';
 import TaskCard from './todo/components/TaskCard';
 import TaskForm from './todo/components/TaskForm';
 import {useTasks} from './todo/hooks/UseTasks';
@@ -42,12 +43,34 @@ function App() {
         closeViewTask
   } = useTasks();
 
-  return (
+ // Detect system theme preference (dark/light mode)
+  const [isDarkMode, setIsDarkMode] = useState(
+    () => window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
 
-<div className="App">
+  // Listen for system theme changes and update accordingly
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleChange = (e) => {
+      setIsDarkMode(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    
+    // Cleanup listener on unmount
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+
+   return (
+    // Apply theme class based on system preference
+    <div className={`App ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+      
+      {/* Page Header */}
       <h1>Habitat</h1>
 
-      {/* Modals */}
+      {/* Add Task Modal */}
       {showAddTaskModal && (
         <TaskForm 
           mode="add"
@@ -60,6 +83,7 @@ function App() {
         />
       )}
 
+      {/* Edit Task Modal */}
       {showEditTaskModal && (
         <TaskForm 
           mode="edit"
@@ -74,6 +98,7 @@ function App() {
         />
       )}
 
+      {/* View Task Modal */}
       {showViewTaskModal && (
         <TaskForm 
           mode="view"
@@ -82,9 +107,10 @@ function App() {
         />
       )}
 
-      {/* Main Content */}
+      {/* Add Task Button */}
       <button onClick={openAddTask}>Add Task</button>
 
+      {/* Active Tasks Section */}
       <h2>To Do</h2>
       <div className="taskList">
         {activeTasks.map(task => (
@@ -98,6 +124,7 @@ function App() {
         ))}
       </div>
 
+      {/* Completed Tasks Section */}
       <h2>Completed</h2>
       <div className="completedTasks">
         {completedTasks.map(task => (
